@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Portfolio from './component/Portfolio';
@@ -21,6 +21,7 @@ import { BlogDetails } from './admin/Blog/BlogDetails';
 import { BlogDetailsPage } from './component/BlogDetailsPage';
 import ShowParticularSkill from './component/skill/ShowParticularSkill';
 import { GetParticlurSkill } from './admin/skill/GetParticlurSkill';
+import { Slide } from "react-awesome-reveal";
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
 // Component handling dynamic background and sidebar based on route
 const MainContent = () => {
   const location = useLocation();
+ 
+  const [routeChanged, setRouteChanged] = useState(false);
 
   // Condition to determine when to show the sidebar
   const showSideBar = !(
@@ -87,7 +90,10 @@ const MainContent = () => {
     }
   };
 
+ 
+
   return (
+    <Slide triggerOnce={false} direction='right' in={routeChanged} onExited={() => setRouteChanged(false)}>
     <div style={getBackgroundStyle()}>
       {showSideBar && <Sidebar />}
       <Routes>
@@ -119,8 +125,11 @@ const MainContent = () => {
 
       </Routes>
     </div>
+    </Slide>
+   
   );
 };
+
 
 // Component for Portfolio that uses ThemeProvider
 const PortfolioWithThemeProvider = () => {
