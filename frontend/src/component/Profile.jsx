@@ -60,7 +60,7 @@ export const Profile = () => {
                     I am a <span ref={typedRef} className="font-bold"></span>
                 </p>
                 <div className="flex justify-center lg:justify-start space-x-4 mb-6 mt-10 text-3xl">
-                    {userProfile.socialMedia.length ? userProfile.socialMedia.map((platform) => (
+                    {userProfile?.socialMedia.length ? userProfile?.socialMedia.map((platform) => (
                         <a key={platform._id} href={platform.url} className="hover:text-blue-600" target="_blank" rel="noopener noreferrer">
                             {getIcon(platform.name)}
                         </a>
