@@ -43,12 +43,7 @@ export const Profile = () => {
         }
     };
 
-    // Loader while fetching data
-    if (!userProfile) return (
-        <p className='flex justify-center items-center content-center'>
-            <span className="loader"></span>
-        </p>
-    );
+    
 
     // Handle cases where userProfile might be empty or missing fields
     if (!userProfile.name || !userProfile.socialMedia) {
