@@ -43,12 +43,7 @@ export const Profile = () => {
         }
     };
 
-    
-
-    // Handle cases where userProfile might be empty or missing fields
-    if (!userProfile.name || !userProfile.socialMedia) {
-        return <p className='flex justify-center items-center content-center'>User data is not available.</p>;
-    }
+  
 
     return (
         <section id="home" className="flex md:flex-col flex-col-reverse lg:flex-row items-center justify-between p-6 max-w-7xl mx-auto">
@@ -59,7 +54,7 @@ export const Profile = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                 >
-                    👋 Hello, I am {userProfile.name}
+                    👋 Hello, I am {userProfile?.name||"Ramnarayan"}
                 </motion.h1>
                 <p className="text-xl mb-4">
                     I am a <span ref={typedRef} className="font-bold"></span>
