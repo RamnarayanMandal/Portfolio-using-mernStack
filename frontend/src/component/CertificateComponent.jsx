@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTheme } from '../ThemeContext';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export const CertificateComponent = () => {
   const [certificateRecords, setCertificateRecords] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const BASE_URL = import.meta.env.VITE_API_URL;
   const { isDarkMode } = useTheme();
+  const navagite = useNavigate()
+  
 
   useEffect(() => {
     const fetchCertificateRecords = async () => {
@@ -67,7 +70,7 @@ export const CertificateComponent = () => {
         </div>
 
         {certificateRecords.length > 0 && (
-          <div className="lg:flex md:flex block justify-between items-start px-10">
+          <div className="lg:flex md:flex block justify-between items-start px-10 cursor-pointer" onClick={()=>navagite("/certificate")}>
             {/* Image Section */}
             <div className="relative w-full lg:w-1/2 h-[60vh] overflow-hidden">
               <img

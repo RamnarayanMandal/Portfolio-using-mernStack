@@ -43,7 +43,8 @@ const MainContent = () => {
     location.pathname === '/about-project' ||
     location.pathname === '/login-ramnarayanMandal' ||
     location.pathname === "/blogDetails" ||
-    location.pathname === "/View-skill"
+    location.pathname === "/View-skill" ||
+    location.pathname === "/certificate"
 
   );
 
@@ -57,13 +58,16 @@ const MainContent = () => {
       case '/skill':
       case '/admin-dashboard':
       case '/contactMe':
-      case '/certificate':
+      case '/admin-certificate':
       case '/education':
       case '/blog':
       case '/blogDetails':
       case 'blog-details':
       case '/View-skill':
       case '/admin-View-skill':
+      case '/certificate':  
+      
+      
           
 
         return {
@@ -102,6 +106,7 @@ const MainContent = () => {
         <Route path="/about-project" element={<PortfolioWithThemeProviderAndProjectDetails />} />
         <Route path="/blogDetails" element={<PortfolioWithThemeProviderAndBlogDetails />} />
         <Route path="/View-skill" element={<PortfolioWithThemeProviderAndviewSkill />} />
+        <Route path="/certificate" element={<PortfolioWithThemeProviderAndvCertificate />} />
         {/* Admin routes */}
         {
           token && (
@@ -115,7 +120,7 @@ const MainContent = () => {
               <Route path="/createEducation" element={<CreateEducation />} />
               <Route path="/Project-Details" element={<ProjectDetils />} />
               <Route path="/experience" element={<ExperienceHomePage />} />
-              <Route path="/certificate" element={<Certificate />} />
+              <Route path="/admin-certificate" element={<PortfolioWithThemeProviderAndvCertificate />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog-details" element={<BlogDetails />} />
               <Route path="/admin-View-skill" element={<GetParticlurSkill />} />
@@ -163,6 +168,14 @@ const PortfolioWithThemeProviderAndviewSkill = () => {
   return (
     <ThemeProvider>
       <ShowParticularSkill />
+    </ThemeProvider>
+  );
+};
+
+const PortfolioWithThemeProviderAndvCertificate = () => {
+  return (
+    <ThemeProvider>
+      <Certificate />
     </ThemeProvider>
   );
 };

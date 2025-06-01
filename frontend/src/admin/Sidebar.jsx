@@ -92,7 +92,7 @@ const Sidebar = () => {
     { label: 'Projects', icon: <GoProjectSymlink />, route: '/projects' },
     { label: 'Experience', icon: <SiKnowledgebase />, route: '/experience' },
     { label: 'Education', icon: <PiStudentBold />, route: '/education' },
-    { label: 'Certificate', icon: <GrCertificate/>, route: '/certificate' },
+    { label: 'Certificate', icon: <GrCertificate/>, route: '/admin-certificate' },
     { label: 'Blog', icon: < LiaBlogSolid  />, route: '/blog' },
     { label: 'Go to Client', icon: <PiUsersFourBold />, route: '/' },
     { label: 'Logout', icon: <FaSignOutAlt />, action: handleLogout },

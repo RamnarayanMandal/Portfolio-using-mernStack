@@ -79,7 +79,7 @@ const WorkExperience = () => {
                     ? "bg-gray-900 text-white"
                     : "bg-white text-gray-800"
                 }`}
-              >
+                 >
                 <h3 className="text-2xl font-bold mb-3">{exp.jobTitle}</h3>
                 <div className="text-gray-600 text-sm mb-2 flex items-center">
                   <FontAwesomeIcon icon={faCalendar} className="mr-2" />
