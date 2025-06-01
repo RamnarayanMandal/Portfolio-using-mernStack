@@ -92,10 +92,17 @@ export const ExperienceHomePage = () => {
                   ))}
                 </ul>
                 <p className="mt-4 text-lg text-right">
-                  {new Date(exp.session.startDate).toLocaleDateString()} -
-                  {exp.session.endDate
-                    ? ` ${new Date(exp.session.endDate).toLocaleDateString()}`
-                    : " Present"}
+                  {new Date(item.session.startDate).toLocaleDateString(
+                    undefined,
+                    { year: "numeric", month: "long" }
+                  )}{" "}
+                  -
+                  {item.session.endDate
+                    ? new Date(item.session.endDate).toLocaleDateString(
+                        undefined,
+                        { year: "numeric", month: "long" }
+                      )
+                    : "Present"}
                 </p>
 
                 <div className="flex justify-between">
