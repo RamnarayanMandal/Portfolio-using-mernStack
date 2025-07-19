@@ -16,6 +16,9 @@ export const createProject = async (req, res) => {
       // Iterate through each image and upload to Cloudinary
       for (const file of req.files.imageUrl) {
         const uploadedImage = await uploadOnCloudinary(file.path);
+        if (!uploadedImage) {
+          return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+        }
         imageUrls.push(uploadedImage.url); // Add the URL to the imageUrls array
       }
     } else {
