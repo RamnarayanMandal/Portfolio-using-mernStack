@@ -110,11 +110,32 @@ export const ProjectDetils = () => {
 
           {/* Technologies Used */}
           <p className="mb-4">
-                  <strong>Technologies Used:</strong>
-                  {Array.isArray(project.technologiesUsed)
-                    ? project.technologiesUsed.join(', ') 
-                    : project.technologiesUsed} 
+                  <strong>Technologies Used: </strong>
+                  {(() => {
+                    let technologies = project.technologiesUsed;
+                    
+                    // Handle stringified array
+                    if (typeof technologies === 'string') {
+                      try {
+                        technologies = JSON.parse(technologies);
+                      } catch (e) {
+                        // If parsing fails, clean the string
+                        return technologies.replace(/[\[\]"]/g, '').split(',').join(', ');
+                      }
+                    }
+                    
+                    // If it's an array, clean and join
+                    if (Array.isArray(technologies)) {
+                      return technologies
+                        .map(tech => tech.replace(/[\[\]"]/g, '').trim())
+                        .filter(tech => tech.length > 0)
+                        .join(', ');
+                    }
+                    
+                    return technologies;
+                  })()}
                 </p>
+              
 
 
           {/* Links */}

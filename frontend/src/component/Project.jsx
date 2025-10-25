@@ -45,6 +45,8 @@ export const Project = () => {
 
   };
 
+
+
   return (
     <motion.div
       className="form-container"
@@ -62,11 +64,11 @@ export const Project = () => {
           <h2 className="text-3xl font-bold">My Projects</h2>
           <span className="block w-20 h-1 bg-blue-800 mx-auto mt-2"></span>
         </div>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 rounded-lg">
           {projects.map((project) => (
             <div
               key={project._id}
-              className={`rounded-lg shadow-lg overflow-hidden relative group transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`} // Adjust card color
+              className={`rounded-lg shadow-lg overflow-hidden relative group transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl  ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`} // Adjust card color
 
             >
               {/* Image */}
@@ -81,17 +83,36 @@ export const Project = () => {
                 <h3 className="text-xl font-bold mb-2">{project.name}</h3>
                 <div
                   className={`mb-4 line-clamp-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}
-                  dangerouslySetInnerHTML={{ __html: project?.description }} // Assuming skill.description contains the rich text
+                  dangerouslySetInnerHTML={{ __html: project?.description }}
                 />
 
                 <p className="mb-2"><strong>Role:</strong> {project.role}</p>
                 <p className="mb-4">
-                  <strong>Technologies Used:</strong>
-                  {Array.isArray(project.technologiesUsed)
-                    ? project.technologiesUsed.join(', ') 
-                    : project.technologiesUsed} 
+                  <strong>Technologies Used: </strong>
+                  {(() => {
+                    let technologies = project.technologiesUsed;
+                    
+                    // Handle stringified array
+                    if (typeof technologies === 'string') {
+                      try {
+                        technologies = JSON.parse(technologies);
+                      } catch (e) {
+                        // If parsing fails, clean the string
+                        return technologies.replace(/[\[\]"]/g, '').split(',').join(', ');
+                      }
+                    }
+                    
+                    // If it's an array, clean and join
+                    if (Array.isArray(technologies)) {
+                      return technologies
+                        .map(tech => tech.replace(/[\[\]"]/g, '').trim())
+                        .filter(tech => tech.length > 0)
+                        .join(', ');
+                    }
+                    
+                    return technologies;
+                  })()}
                 </p>
-
               </div>
 
               {/* Buttons (Show on hover) */}
