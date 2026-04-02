@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { Navbar } from "../../component/Navbar";
 import { useTheme } from "../../ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Seo } from "../../component/Seo";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -14,6 +15,7 @@ const Certificate = () => {
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const { isDarkMode } = useTheme();
   const navagite = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -99,6 +101,14 @@ const Certificate = () => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {location.pathname === "/certificate" && (
+        <Seo
+          title="Certificates — Portfolio"
+          description="Professional certifications, courses, and credentials."
+          keywords="certificates, credentials, courses, portfolio"
+          path="/certificate"
+        />
+      )}
       {location.pathname === "/certificate" && <Navbar />}
 
       <div

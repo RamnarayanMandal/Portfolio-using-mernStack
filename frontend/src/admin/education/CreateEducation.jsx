@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MdClose } from "react-icons/md";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -19,6 +20,9 @@ const CreateEducation = ({ setShowModel, selectedEdu, fetchEducations }) => {
     description: '',
     image: null,
     achievements: [''],
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   useEffect(() => {
@@ -36,6 +40,9 @@ const CreateEducation = ({ setShowModel, selectedEdu, fetchEducations }) => {
         description: selectedEdu.description,
         image: null,
         achievements: selectedEdu.achievements || [''],
+        seoTitle: selectedEdu.seoTitle || '',
+        seoDescription: selectedEdu.seoDescription || '',
+        seoKeywords: selectedEdu.seoKeywords || '',
       });
     }
   }, [selectedEdu]);
@@ -157,6 +164,10 @@ const CreateEducation = ({ setShowModel, selectedEdu, fetchEducations }) => {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
             required={!selectedEdu} // Make it required only for new entries
           />
+        </div>
+
+        <div className="col-span-2">
+          <SeoFormFields values={formData} onChange={handleChange} />
         </div>
 
         <button

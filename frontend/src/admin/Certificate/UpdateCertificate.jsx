@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import ReactQuill from 'react-quill'; // Import ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -16,6 +17,9 @@ const UpdateCertificate = ({ showModal, certificate }) => {
     startDate: '',
     endDate: '',
     image: null,
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   const token = localStorage.getItem('token');
@@ -29,7 +33,10 @@ const UpdateCertificate = ({ showModal, certificate }) => {
         issuedDate: certificate.issuedDate,
         startDate: certificate.session.start,
         endDate: certificate.session.end,
-        image: null
+        image: null,
+        seoTitle: certificate.seoTitle || '',
+        seoDescription: certificate.seoDescription || '',
+        seoKeywords: certificate.seoKeywords || '',
       });
     }
   }, [certificate]);
@@ -66,6 +73,9 @@ const UpdateCertificate = ({ showModal, certificate }) => {
     formDataToSubmit.append('issuedDate', certificateData.issuedDate);
     formDataToSubmit.append('startDate', certificateData.startDate);
     formDataToSubmit.append('endDate', certificateData.endDate);
+    formDataToSubmit.append('seoTitle', certificateData.seoTitle || '');
+    formDataToSubmit.append('seoDescription', certificateData.seoDescription || '');
+    formDataToSubmit.append('seoKeywords', certificateData.seoKeywords || '');
 
     if (certificateData.image) {
       formDataToSubmit.append('image', certificateData.image);
@@ -102,6 +112,9 @@ const UpdateCertificate = ({ showModal, certificate }) => {
         startDate: '',
         endDate: '',
         image: null,
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
       });
       showModal(false);
     } catch (error) {
@@ -202,6 +215,8 @@ const UpdateCertificate = ({ showModal, certificate }) => {
             className="mt-1 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring focus:ring-pink-500"
           />
         </div>
+
+        <SeoFormFields values={certificateData} onChange={handleChange} />
 
         <button type="submit" className="bg-pink-500 text-white py-2 px-4 rounded">
           {certificate ? 'Update Certificate' : 'Add Certificate'}

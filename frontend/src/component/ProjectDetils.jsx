@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { useTheme } from '../ThemeContext';
+import { Seo, plainTextFromHtml, resolveEntitySeo } from './Seo';
 
 export const ProjectDetils = () => {
   const location = useLocation();
@@ -21,9 +22,12 @@ export const ProjectDetils = () => {
 
   if (!project) {
     return (
-      <div className={`text-center font-bold text-xl ${isDarkMode ? 'text-red-400' : 'text-red-500'}`}>
-        Project details not available
-      </div>
+      <>
+        <Seo title="Project — Ramnarayan-portfolio" path="/about-project" />
+        <div className={`text-center font-bold text-xl ${isDarkMode ? 'text-red-400' : 'text-red-500'}`}>
+          Project details not available
+        </div>
+      </>
     );
   }
 
@@ -31,6 +35,15 @@ export const ProjectDetils = () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
+
+  let techKeywords = '';
+  try {
+    const t = project.technologiesUsed;
+    const arr = Array.isArray(t) ? t : typeof t === 'string' ? JSON.parse(t) : [];
+    techKeywords = Array.isArray(arr) ? arr.filter(Boolean).join(', ') : '';
+  } catch {
+    techKeywords = String(project.technologiesUsed || '');
+  }
 
   // Handlers to move through carousel images
   const handleNextImage = () => {
@@ -47,6 +60,18 @@ export const ProjectDetils = () => {
 
   return (
     <div className={`py-20 lg:px-40  ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'}`}>
+      <Seo
+        {...resolveEntitySeo(project, {
+          title: `${project.name} — Project`,
+          description:
+            plainTextFromHtml(project.description, 200) || `Role: ${project.role}`,
+          keywords: [project.name, techKeywords, "project", "portfolio"]
+            .filter(Boolean)
+            .join(", "),
+        })}
+        path="/about-project"
+        ogImage={project.imageUrl?.[0]}
+      />
       <Navbar />
       <div className="overflow-hidden">
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { MdClose } from "react-icons/md";
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -14,6 +15,9 @@ const AddExperience = ({ showmodel, selectedExe,fetchExperience }) => {
     },
     
     achievements: [''],
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   useEffect(() => {
@@ -26,6 +30,9 @@ const AddExperience = ({ showmodel, selectedExe,fetchExperience }) => {
           start: selectedExe.session?.start ? selectedExe.session.start.split('T')[0] : '',
           end: selectedExe.session?.end ? selectedExe.session.end.split('T')[0] : '',
         },
+        seoTitle: selectedExe.seoTitle || '',
+        seoDescription: selectedExe.seoDescription || '',
+        seoKeywords: selectedExe.seoKeywords || '',
       });
     } else {
       setFormData({
@@ -33,6 +40,9 @@ const AddExperience = ({ showmodel, selectedExe,fetchExperience }) => {
         company: '',
         achievements: [''],
         session: { start: '', end: '' },
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
       });
     }
   }, [selectedExe]);
@@ -90,6 +100,9 @@ const AddExperience = ({ showmodel, selectedExe,fetchExperience }) => {
         endDate: formData.session.end,      // use endDate instead of end
       },
       achievements: formData.achievements.filter(achievement => achievement.trim() !== ''),
+      seoTitle: formData.seoTitle,
+      seoDescription: formData.seoDescription,
+      seoKeywords: formData.seoKeywords,
     };
   
     try {
@@ -199,6 +212,9 @@ const AddExperience = ({ showmodel, selectedExe,fetchExperience }) => {
               )}
             </div>
           ))}
+        </div>
+        <div className="md:col-span-2">
+          <SeoFormFields values={formData} onChange={handleChange} />
         </div>
         {/* Submit Button */}
         <div className="md:col-span-2">

@@ -67,13 +67,13 @@ export const Navbar = () => {
   return (
     <header className={`fixed top-0 left-0 w-full ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} shadow-md z-50`}>
       <nav className="flex items-center justify-between p-4 max-w-7xl mx-auto">
-        <a href="#" className="flex items-center">
+        <a href="/#home" className="flex items-center" aria-label="Portfolio home">
           {logo.length > 0 ? (
             logo.map((log) => (
               <img
                 key={log.id}
                 src={log.logo}
-                alt="logo"
+                alt={log.seoTitle || log.altText || "Portfolio site logo"}
                 className="h-6 w-full rounded-full object-cover"
               />
             ))

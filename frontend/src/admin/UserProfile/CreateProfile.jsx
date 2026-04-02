@@ -15,7 +15,10 @@ const CreateProfile = ({ userProfile, setShowModalUpdate }) => {
             title: userProfile.title,
             bio: userProfile.bio,
             socialMedia: userProfile.socialMedia || [],
-            address: userProfile.address // Ensure address is included in default values
+            address: userProfile.address,
+            seoTitle: userProfile.seoTitle || '',
+            seoDescription: userProfile.seoDescription || '',
+            seoKeywords: userProfile.seoKeywords || '',
         }
     });
 
@@ -134,6 +137,41 @@ const CreateProfile = ({ userProfile, setShowModalUpdate }) => {
                         onChange={handleBioChange} // Update bio on change
                         placeholder="Write something about yourself..."
                     />
+                </div>
+
+                <div className="border-t border-gray-200 pt-6 mt-2">
+                    <h3 className="font-semibold text-gray-800 mb-3">SEO (search engines)</h3>
+                    <p className="text-sm text-gray-500 mb-4">
+                        Optional. If left empty, the site uses your name, title, and bio for the homepage meta tags.
+                    </p>
+                    <div className="form-group mb-4">
+                        <label className="font-semibold mb-2 text-gray-700 block">SEO title</label>
+                        <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                            placeholder="e.g. Jane Doe — Full Stack Developer"
+                            {...register('seoTitle')}
+                        />
+                    </div>
+                    <div className="form-group mb-4">
+                        <label className="font-semibold mb-2 text-gray-700 block">SEO description</label>
+                        <textarea
+                            rows={3}
+                            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                            placeholder="Short summary for Google (recommended ~150–160 characters)"
+                            {...register('seoDescription')}
+                        />
+                    </div>
+                    <div className="form-group mb-2">
+                        <label className="font-semibold mb-2 text-gray-700 block">SEO keywords</label>
+                        <input
+                            type="text"
+                            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                            placeholder="react, node, portfolio, web developer"
+                            {...register('seoKeywords')}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Comma-separated keywords.</p>
+                    </div>
                 </div>
 
                 {/* Social Media Links */}

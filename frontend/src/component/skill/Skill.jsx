@@ -30,6 +30,7 @@ const Skill = () => {
 
   return (
     <section
+      id="skills"
       className={`skills ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} lg:px-60 px-10 py-10`}
     >
       <div className="max-w-7xl mx-auto">

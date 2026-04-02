@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { PostComment } from './PostComment';
 import axios from 'axios';
+import { Seo, plainTextFromHtml, resolveEntitySeo } from './Seo';
 
 export const BlogDetailsPage = () => {
     const location = useLocation();
@@ -12,7 +13,7 @@ export const BlogDetailsPage = () => {
     const { isDarkMode } = useTheme();
     
     // Initialize state for likes
-    const [likes, setLikes] = useState(blog.likes || 0);
+    const [likes, setLikes] = useState(blog?.likes ?? 0);
     
     // Handle back button click
     const handleBack = () => {
@@ -35,14 +36,26 @@ export const BlogDetailsPage = () => {
 
     if (!blog) {
         return (
-            <div className={`container mx-auto p-6 ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'}`}>
-                Blog not found!
-            </div>
+            <>
+                <Seo title="Blog — Ramnarayan-portfolio" path="/blogDetails" />
+                <div className={`container mx-auto p-6 ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'}`}>
+                    Blog not found!
+                </div>
+            </>
         );
     }
 
     return (
         <div className={`p-6 py-20 min-h-screen ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-gray-800'}`}>
+            <Seo
+                {...resolveEntitySeo(blog, {
+                    title: `${blog.title} — Blog`,
+                    description: plainTextFromHtml(blog.content, 200) || blog.title,
+                    keywords: `${blog.title}, blog, article, portfolio`,
+                })}
+                path="/blogDetails"
+                ogImage={blog.image}
+            />
             <Navbar />
             <div className="flex flex-col">
                 <button

@@ -12,11 +12,17 @@ import Swal from 'sweetalert2';  // Import SweetAlert2
 import { GrCertificate } from "react-icons/gr";
 import { LiaBlogSolid } from "react-icons/lia";
 import { PiStudentBold } from "react-icons/pi";
+import { SeoFormFields } from './shared/SeoFormFields';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [logo, setLogo] = useState([]);
   const [logoFile, setLogoFile] = useState(null);
+  const [logoMeta, setLogoMeta] = useState({
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   
@@ -45,6 +51,14 @@ const Sidebar = () => {
     try {
       const resp = await axios.get(`${URI}/api/logo/`);
       setLogo(resp.data);
+      if (resp.data?.length > 0) {
+        const l = resp.data[0];
+        setLogoMeta({
+          seoTitle: l.seoTitle || '',
+          seoDescription: l.seoDescription || '',
+          seoKeywords: l.seoKeywords || '',
+        });
+      }
       console.log(resp.data);
     } catch (error) {
       console.error('Error fetching logo:', error);
@@ -52,10 +66,18 @@ const Sidebar = () => {
     }
   };
 
+  const handleLogoMetaChange = (e) => {
+    const { name, value } = e.target;
+    setLogoMeta((prev) => ({ ...prev, [name]: value }));
+  };
+
   const createLogo = async () => {
     try {
       const formData = new FormData();
       formData.append('logo', logoFile);
+      formData.append('seoTitle', logoMeta.seoTitle || '');
+      formData.append('seoDescription', logoMeta.seoDescription || '');
+      formData.append('seoKeywords', logoMeta.seoKeywords || '');
       const resp = await axios.post(`${URI}/api/logo/`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -70,7 +92,10 @@ const Sidebar = () => {
   const updateLogo = async () => {
     try {
       const formData = new FormData();
-      formData.append('logo', logoFile);
+      if (logoFile) formData.append('logo', logoFile);
+      formData.append('seoTitle', logoMeta.seoTitle || '');
+      formData.append('seoDescription', logoMeta.seoDescription || '');
+      formData.append('seoKeywords', logoMeta.seoKeywords || '');
       const resp = await axios.put(`${URI}/api/logo/${logoId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -172,6 +197,7 @@ const Sidebar = () => {
                   className="border p-2 w-full"
                 />
               </div>
+              <SeoFormFields values={logoMeta} onChange={handleLogoMetaChange} />
               <div className="flex justify-between items-center gap-5">
                 <button
                   type="submit"

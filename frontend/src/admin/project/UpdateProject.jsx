@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +17,10 @@ const UpdateProject = ({ showModal, project ,fetchProjects }) => {
     githubLink: '',
     liveDemoLink: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
@@ -35,7 +39,10 @@ const UpdateProject = ({ showModal, project ,fetchProjects }) => {
         liveDemoLink: project.liveDemoLink,
         startDate: project.startDate ? project.startDate.split('T')[0] : '',
         endDate: project.endDate ? project.endDate.split('T')[0] : '',
-        imageFiles: []
+        imageFiles: [],
+        seoTitle: project.seoTitle || '',
+        seoDescription: project.seoDescription || '',
+        seoKeywords: project.seoKeywords || '',
       });
       setImagePreviews(project.imageUrl || []);
     }
@@ -93,6 +100,9 @@ const UpdateProject = ({ showModal, project ,fetchProjects }) => {
       formData.append('liveDemoLink', projectData.liveDemoLink);
       formData.append('startDate', projectData.startDate);
       formData.append('endDate', projectData.endDate);
+      formData.append('seoTitle', projectData.seoTitle || '');
+      formData.append('seoDescription', projectData.seoDescription || '');
+      formData.append('seoKeywords', projectData.seoKeywords || '');
 
       for (const file of projectData.imageFiles) {
         formData.append('imageUrl', file);
@@ -255,6 +265,10 @@ const UpdateProject = ({ showModal, project ,fetchProjects }) => {
             className="mt-1 border border-gray-300 rounded"
           />
         </div>
+        <SeoFormFields
+          values={projectData}
+          onChange={handleChange}
+        />
         <div className='flex items-center content-center gap-4'>
           <button
             type="button"

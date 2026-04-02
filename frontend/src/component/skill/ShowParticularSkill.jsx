@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from '../Navbar';
 import { useTheme } from '../../ThemeContext'; // Assuming useTheme comes from a global context
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'; // Font Awesome icons
+import { Seo, plainTextFromHtml, resolveEntitySeo } from '../Seo';
 
 const ShowParticularSkill = () => {
     const location = useLocation();
@@ -40,6 +41,24 @@ const ShowParticularSkill = () => {
 
     return (
         <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
+            <Seo
+                {...(selectedSkill
+                    ? resolveEntitySeo(selectedSkill, {
+                          title: `${selectedSkill.name} — Skill`,
+                          description:
+                              plainTextFromHtml(selectedSkill.description, 200) ||
+                              `${selectedSkill.name} — technical skill and experience.`,
+                          keywords: `${selectedSkill.name}, skills, technologies, portfolio`,
+                      })
+                    : {
+                          title: 'Skills — Portfolio',
+                          description:
+                              'Browse technical skills, ratings, and related projects.',
+                          keywords: 'skills, MERN, portfolio, developer',
+                      })}
+                path="/View-skill"
+                ogImage={selectedSkill?.logo}
+            />
             {/* Navbar */}
             <Navbar />
             <div className="flex mt-20 lg:px-40 px-5">

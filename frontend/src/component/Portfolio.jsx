@@ -14,12 +14,16 @@ import { CertificateComponent } from "./CertificateComponent";
 import { BlogComponent } from "./BlogComponent";
 import { Slide } from "react-awesome-reveal";
 import { useInView } from "react-intersection-observer";
+import { Seo } from "./Seo";
+import { useActiveSectionId } from "../hooks/useActiveSectionId";
+import { getPortfolioSeoForSection } from "../utils/portfolioSeo";
 
 const URI = import.meta.env.VITE_API_URL;
 
 function Portfolio() {
   const { isDarkMode } = useTheme();
   const [userProfile, setUserProfile] = useState(null); // Initialize state
+  const activeSectionId = useActiveSectionId();
 
   // Load user profile
   useEffect(() => {
@@ -35,6 +39,14 @@ function Portfolio() {
 
     fetchUserProfile();
   }, []);
+
+  useEffect(() => {
+    if (!userProfile) return;
+    const id = requestAnimationFrame(() => {
+      window.dispatchEvent(new Event("scroll"));
+    });
+    return () => cancelAnimationFrame(id);
+  }, [userProfile]);
 
   const containerClasses = isDarkMode
     ? "font-sans text-gray-300 bg-gray-900"
@@ -76,20 +88,31 @@ function Portfolio() {
 
   // Show loader if profile data is not yet available
   if (!userProfile) {
-  return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen bg-gray-100 dark:bg-gray-900 animate-fadeIn">
-      <div className="w-16 h-16 border-4 border-indigo-600 dark:border-white border-t-transparent rounded-full animate-spin"></div>
-      <p className="mt-4 text-gray-800 dark:text-gray-200 text-lg animate-pulse">Loading...</p>
-    </div>
-  );
-}
+    return (
+      <>
+        <Seo title="Ramnarayan-portfolio" path="/" />
+        <div className="flex flex-col justify-center items-center h-screen w-screen bg-gray-100 dark:bg-gray-900 animate-fadeIn">
+          <div className="w-16 h-16 border-4 border-indigo-600 dark:border-white border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-gray-800 dark:text-gray-200 text-lg animate-pulse">Loading...</p>
+        </div>
+      </>
+    );
+  }
 
+  const pageSeo = getPortfolioSeoForSection(activeSectionId, userProfile);
 
   return (
     <div
       className={containerClasses}
       style={!isDarkMode ? lightModeBackground : {}}
     >
+      <Seo
+        title={pageSeo.title}
+        description={pageSeo.description}
+        keywords={pageSeo.keywords}
+        path="/"
+        ogImage={pageSeo.ogImage}
+      />
       <Navbar />
       <main className="pt-[100px]">
         <Slide direction="left" triggerOnce when={profileInView}>

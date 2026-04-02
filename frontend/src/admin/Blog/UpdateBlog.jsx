@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import ReactQuill from 'react-quill'; // Import ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,9 @@ const UpdateBlog = ({ onClose, blog }) => {
     video: null,
     audio: null,
     documents: [],
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   const token = localStorage.getItem('token');
@@ -37,6 +41,9 @@ const UpdateBlog = ({ onClose, blog }) => {
         video: null,
         audio: null,
         documents: [],
+        seoTitle: blog.seoTitle || '',
+        seoDescription: blog.seoDescription || '',
+        seoKeywords: blog.seoKeywords || '',
       });
     }
   }, [blog]);
@@ -86,6 +93,9 @@ const UpdateBlog = ({ onClose, blog }) => {
         formDataToSubmit.append('documents', doc);
       });
     }
+    formDataToSubmit.append('seoTitle', blogData.seoTitle || '');
+    formDataToSubmit.append('seoDescription', blogData.seoDescription || '');
+    formDataToSubmit.append('seoKeywords', blogData.seoKeywords || '');
 
     try {
       const url = blog
@@ -119,6 +129,9 @@ const UpdateBlog = ({ onClose, blog }) => {
         video: null,
         audio: null,
         documents: [],
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
       });
       onClose();
     } catch (error) {
@@ -173,6 +186,8 @@ const UpdateBlog = ({ onClose, blog }) => {
             className="mt-1 w-full h-40 border rounded focus:outline-none focus:ring focus:ring-pink-500"
           />
         </div>
+
+        <SeoFormFields values={blogData} onChange={handleChange} />
 
         {selectedFileType && (
           <div className="mb-4">

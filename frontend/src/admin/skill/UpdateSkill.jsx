@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import ReactQuill from 'react-quill'; // Import React Quill
 import 'react-quill/dist/quill.snow.css'; // Import styles
+import { SeoFormFields } from '../shared/SeoFormFields';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -15,6 +16,9 @@ const UpdateSkill = ({ showModal, skill }) => {
     rating: '',
     projectUrl: [{ name: '', url: '' }],
     logo: null,
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   useEffect(() => {
@@ -26,6 +30,9 @@ const UpdateSkill = ({ showModal, skill }) => {
         rating: skill.rating,
         projectUrl: skill.projectUrl.length > 0 ? skill.projectUrl : [{ name: '', url: '' }],
         logo: skill.logo || null,
+        seoTitle: skill.seoTitle || '',
+        seoDescription: skill.seoDescription || '',
+        seoKeywords: skill.seoKeywords || '',
       });
     }
   }, [skill]);
@@ -82,6 +89,9 @@ const UpdateSkill = ({ showModal, skill }) => {
       formDataToSubmit.append('logo', skillData.logo);
     }
     formDataToSubmit.append('projectUrl', JSON.stringify(skillData.projectUrl));
+    formDataToSubmit.append('seoTitle', skillData.seoTitle || '');
+    formDataToSubmit.append('seoDescription', skillData.seoDescription || '');
+    formDataToSubmit.append('seoKeywords', skillData.seoKeywords || '');
 
     try {
       const url = skill
@@ -112,6 +122,9 @@ const UpdateSkill = ({ showModal, skill }) => {
         rating: '',
         logo: null,
         projectUrl: [{ name: '', url: '' }],
+        seoTitle: '',
+        seoDescription: '',
+        seoKeywords: '',
       });
       showModal(false);
     } catch (error) {
@@ -214,6 +227,7 @@ const UpdateSkill = ({ showModal, skill }) => {
             className="mt-1 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-pink-500"
           />
         </div>
+        <SeoFormFields values={skillData} onChange={handleChange} />
         <div className="mb-4 flex items-center gap-4 content-center">
         <button
           type="button"
